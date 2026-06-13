@@ -1,0 +1,37 @@
+name: Update FDA tobacco product data
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/update-data.yml"
+      - "package.json"
+      - "scripts/update-data.mjs"
+  schedule:
+    - cron: "23 11 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Download and compare FDA records
+        run: npm run update:data
+
+      - name: Commit updated data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update FDA tobacco product data"
+          file_pattern: data/current.json data/changes.json data/fda-tobacco-products.csv

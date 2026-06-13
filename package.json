@@ -1,0 +1,10 @@
+{
+  "name": "tobacco-product-registry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "update:data": "node scripts/update-data.mjs",
+    "serve": "python3 -m http.server 4173"
+  }
+}

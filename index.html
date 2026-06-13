@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tobacco Product Registry Watch</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">FDA tobacco product directory monitor</p>
+        <h1>Registry Watch</h1>
+      </div>
+      <div class="source">
+        <span id="sourceDate">Loading FDA data...</span>
+        <a href="https://www.accessdata.fda.gov/scripts/searchtobacco/" target="_blank" rel="noreferrer">FDA directory</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="status-grid" aria-label="Registry summary">
+        <article>
+          <span>Total records</span>
+          <strong id="totalRecords">0</strong>
+        </article>
+        <article>
+          <span>New since last scan</span>
+          <strong id="newRecords">0</strong>
+        </article>
+        <article>
+          <span>Current results</span>
+          <strong id="visibleRecords">0</strong>
+        </article>
+        <article>
+          <span>Latest action date</span>
+          <strong id="latestAction">-</strong>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="filters" aria-label="Search filters">
+          <label class="field">
+            <span>Search</span>
+            <input id="query" type="search" autocomplete="off" placeholder="Company, product, STN, MRTP, notes">
+          </label>
+
+          <label class="field">
+            <span>Category</span>
+            <select id="category"></select>
+          </label>
+
+          <label class="field">
+            <span>Marketing authority</span>
+            <select id="submissionType"></select>
+          </label>
+
+          <div class="field two-col">
+            <label>
+              <span>Action from</span>
+              <input id="dateFrom" type="date">
+            </label>
+            <label>
+              <span>Action to</span>
+              <input id="dateTo" type="date">
+            </label>
+          </div>
+
+          <label class="check">
+            <input id="newOnly" type="checkbox">
+            <span>Show only records added since the last scan</span>
+          </label>
+
+          <label class="check">
+            <input id="authorizedOnly" type="checkbox">
+            <span>Hide “Removed From Review” records</span>
+          </label>
+
+          <div class="actions">
+            <button id="reset" type="button">Reset</button>
+            <button id="download" type="button">Export results</button>
+          </div>
+        </aside>
+
+        <section class="results" aria-live="polite">
+          <div class="results-head">
+            <div>
+              <h2 id="resultTitle">Products</h2>
+              <p id="scanNote">Loading records...</p>
+            </div>
+            <label>
+              <span>Sort</span>
+              <select id="sort">
+                <option value="date-desc">Newest action first</option>
+                <option value="date-asc">Oldest action first</option>
+                <option value="company-asc">Company A-Z</option>
+                <option value="product-asc">Product A-Z</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Marketing authority</th>
+                  <th>Action date</th>
+                  <th>STN</th>
+                  <th>Documents</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+
+          <div class="pager">
+            <button id="prev" type="button">Previous</button>
+            <span id="pageInfo">Page 1</span>
+            <button id="next" type="button">Next</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <template id="emptyTemplate">
+      <tr>
+        <td colspan="7" class="empty">No records match the current filters.</td>
+      </tr>
+    </template>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
