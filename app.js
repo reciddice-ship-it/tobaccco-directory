@@ -25,6 +25,10 @@ const els = {
   sort: document.querySelector("#sort"),
   rows: document.querySelector("#rows"),
   scanNote: document.querySelector("#scanNote"),
+  visualNote: document.querySelector("#visualNote"),
+  categoryChart: document.querySelector("#categoryChart"),
+  authorityChart: document.querySelector("#authorityChart"),
+  yearChart: document.querySelector("#yearChart"),
   resultTitle: document.querySelector("#resultTitle"),
   prev: document.querySelector("#prev"),
   next: document.querySelector("#next"),
@@ -138,7 +142,83 @@ function applyFilters() {
   sortRecords(state.filtered, els.sort.value);
   els.visibleRecords.textContent = formatNumber(state.filtered.length);
   els.resultTitle.textContent = els.newOnly.checked ? "New products" : "Products";
+  renderVisuals();
   renderRows();
+}
+
+function renderVisuals() {
+  els.visualNote.textContent = `${formatNumber(state.filtered.length)} matching records visualized.`;
+  renderBarList(els.categoryChart, countBy(state.filtered, "category"), 7);
+  renderBarList(els.authorityChart, countBy(state.filtered, "submissionType"), 7);
+  renderYearChart();
+}
+
+function renderBarList(container, counts, limit) {
+  const entries = Object.entries(counts)
+    .filter(([, count]) => count > 0)
+    .sort((left, right) => right[1] - left[1])
+    .slice(0, limit);
+  const max = Math.max(...entries.map(([, count]) => count), 1);
+
+  if (!entries.length) {
+    container.innerHTML = "<p class=\"chart-empty\">No matching records.</p>";
+    return;
+  }
+
+  container.innerHTML = entries
+    .map(([label, count]) => {
+      const width = Math.max(3, Math.round((count / max) * 100));
+      return `
+        <div class="bar-row">
+          <div class="bar-meta">
+            <span>${escapeHtml(label || "Unspecified")}</span>
+            <strong>${formatNumber(count)}</strong>
+          </div>
+          <div class="bar-track" aria-hidden="true">
+            <span style="width: ${width}%"></span>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function renderYearChart() {
+  const counts = {};
+  for (const record of state.filtered) {
+    if (!record.actionDateIso) continue;
+    const year = record.actionDateIso.slice(0, 4);
+    counts[year] = (counts[year] ?? 0) + 1;
+  }
+
+  const entries = Object.entries(counts).sort(([left], [right]) => left.localeCompare(right));
+  const max = Math.max(...entries.map(([, count]) => count), 1);
+
+  if (!entries.length) {
+    els.yearChart.innerHTML = "<p class=\"chart-empty\">No dated records.</p>";
+    return;
+  }
+
+  els.yearChart.innerHTML = entries
+    .map(([year, count]) => {
+      const height = Math.max(4, Math.round((count / max) * 100));
+      return `
+        <div class="year-column" title="${escapeAttribute(`${year}: ${formatNumber(count)} records`)}">
+          <span class="year-count">${formatNumber(count)}</span>
+          <div class="year-bar" style="height: ${height}%"></div>
+          <span class="year-label">${year}</span>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function countBy(records, key) {
+  return records.reduce((counts, record) => {
+    const label = record[key] || "Unspecified";
+    counts[label] = (counts[label] ?? 0) + 1;
+    return counts;
+  }, {});
 }
 
 function renderRows() {

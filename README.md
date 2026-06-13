@@ -2,7 +2,7 @@
 
 A static GitHub Pages-ready dashboard for the FDA Searchable Tobacco Products Database.
 
-The page loads the generated FDA snapshot from `data/current.json`, searches previously listed products, and highlights records added since the previous scan using `data/changes.json`.
+The page loads the generated FDA snapshot from `data/current.json`, searches previously listed products, visualizes authorization patterns, and highlights records added since the previous scan using `data/changes.json`.
 
 ## Local update
 
