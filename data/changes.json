@@ -1,12 +1,12 @@
 {
   "source": "https://www.accessdata.fda.gov/scripts/searchtobacco/index.cfm?action=export.viewFile",
   "sourcePage": "https://www.accessdata.fda.gov/scripts/searchtobacco/",
-  "asOf": "06/25/2026",
-  "generatedAt": "2026-07-01T13:42:20.779Z",
+  "asOf": "07/01/2026",
+  "generatedAt": "2026-07-02T13:11:41.702Z",
   "firstRun": false,
   "previousAsOf": "06/25/2026",
   "previousTotalRecords": 17585,
-  "currentTotalRecords": 17585,
+  "currentTotalRecords": 10514,
   "newRecordCount": 0,
   "newRecords": []
 }
