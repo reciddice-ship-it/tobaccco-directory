@@ -11,16 +11,7 @@ const CURRENT_FILE = new URL("current.json", DATA_DIR);
 const CHANGES_FILE = new URL("changes.json", DATA_DIR);
 const CSV_FILE = new URL("fda-tobacco-products.csv", DATA_DIR);
 const execFileAsync = promisify(execFile);
-
-const EXPORT_BODY = new URLSearchParams({
-  STATUS: "",
-  CATEGORY: "",
-  SUBCATEGORY: "",
-  TOBACCO_PRODUCT_NAME: "",
-  SUBMISSION: "",
-  DATE_ACTION_FROM: "",
-  DATE_ACTION_TO: ""
-});
+const MAX_RECORD_DROP_RATIO = 0.15;
 
 const fieldMap = {
   "Company": "company",
@@ -45,6 +36,14 @@ async function main() {
   const csvText = await downloadCsv();
   const { asOf, rows } = parseExport(csvText);
   const records = rows.map(normalizeRecord).filter(Boolean);
+
+  if (previous?.totalRecords && records.length < previous.totalRecords * (1 - MAX_RECORD_DROP_RATIO)) {
+    throw new Error(
+      `FDA export returned ${records.length.toLocaleString()} records, down from ${previous.totalRecords.toLocaleString()}. ` +
+        "Refusing to overwrite the snapshot because this looks like a partial export."
+    );
+  }
+
   const previousIds = new Set((previous?.records ?? []).map((record) => record.id));
   const newRecords = previous ? records.filter((record) => !previousIds.has(record.id)) : [];
   const generatedAt = new Date().toISOString();
@@ -94,10 +93,6 @@ async function downloadCsv() {
       "Mozilla/5.0",
       "--referer",
       "https://www.accessdata.fda.gov/scripts/searchtobacco/",
-      "--header",
-      "content-type: application/x-www-form-urlencoded;charset=UTF-8",
-      "--data",
-      EXPORT_BODY.toString(),
       FDA_EXPORT_URL
     ],
     {
@@ -123,9 +118,10 @@ function parseExport(text) {
     throw new Error("Could not find CSV header row in FDA export.");
   }
 
-  const rows = parseCsv(lines.slice(csvStart).join("\n"));
-  const headers = rows.shift();
-  const objects = rows
+  const headers = parseCsvLine(lines[csvStart]);
+  const objects = lines
+    .slice(csvStart + 1)
+    .map(parseCsvLine)
     .filter((row) => row.some((value) => value.trim() !== ""))
     .map((row) =>
       Object.fromEntries(headers.map((header, index) => [header.trim(), row[index]?.trim() ?? ""]))
@@ -137,22 +133,23 @@ function parseExport(text) {
   };
 }
 
-function parseCsv(text) {
-  const rows = [];
-  let row = [];
+function parseCsvLine(line) {
+  const row = [];
   let value = "";
   let quoted = false;
 
-  for (let index = 0; index < text.length; index += 1) {
-    const char = text[index];
-    const next = text[index + 1];
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    const next = line[index + 1];
 
     if (quoted) {
       if (char === "\"" && next === "\"") {
         value += "\"";
         index += 1;
-      } else if (char === "\"") {
+      } else if (char === "\"" && (next === "," || next === undefined)) {
         quoted = false;
+      } else if (char === "\"") {
+        value += char;
       } else {
         value += char;
       }
@@ -164,22 +161,13 @@ function parseCsv(text) {
     } else if (char === ",") {
       row.push(value);
       value = "";
-    } else if (char === "\n") {
-      row.push(value);
-      rows.push(row);
-      row = [];
-      value = "";
     } else {
       value += char;
     }
   }
 
-  if (value || row.length) {
-    row.push(value);
-    rows.push(row);
-  }
-
-  return rows;
+  row.push(value);
+  return row;
 }
 
 function normalizeRecord(row) {
