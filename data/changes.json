@@ -2,46 +2,11 @@
   "source": "https://www.accessdata.fda.gov/scripts/searchtobacco/index.cfm?action=export.viewFile",
   "sourcePage": "https://www.accessdata.fda.gov/scripts/searchtobacco/",
   "asOf": "08/19/2026",
-  "generatedAt": "2026-08-20T11:46:39.246Z",
+  "generatedAt": "2026-08-21T11:46:15.508Z",
   "firstRun": false,
-  "previousAsOf": "08/18/2026",
-  "previousTotalRecords": 17773,
+  "previousAsOf": "08/19/2026",
+  "previousTotalRecords": 17775,
   "currentTotalRecords": 17775,
-  "newRecordCount": 2,
-  "newRecords": [
-    {
-      "company": "Helix Innovations LLC",
-      "productName": "on! nicotine pouches 4 mg Rich Berry",
-      "category": "Other",
-      "subCategory": "Other",
-      "submissionType": "PMTA - Marketing Granted Order",
-      "actionDate": "08/19/2026",
-      "orderLetter": "https://www.accessdata.fda.gov/static/searchtobacco/helix/Helix_Sep_2024_B1.1_MRKT_ORDR_LTR_PM0008766_AUG_19_2026_Redacted.pdf",
-      "decisionSummary": "-",
-      "environmentalAssessment": "-",
-      "fonsi": "-",
-      "stn": "PM0008766.PD2",
-      "associatedMrtp": "",
-      "additionalInformation": "Director's Review",
-      "actionDateIso": "2026-08-19",
-      "id": "9ed40777924edb0f"
-    },
-    {
-      "company": "Helix Innovations LLC",
-      "productName": "on! nicotine pouches 4 mg Autumn Spice",
-      "category": "Other",
-      "subCategory": "Other",
-      "submissionType": "PMTA - Marketing Granted Order",
-      "actionDate": "08/19/2026",
-      "orderLetter": "https://www.accessdata.fda.gov/static/searchtobacco/helix/Helix_Sep_2024_B1.1_MRKT_ORDR_LTR_PM0008766_AUG_19_2026_Redacted.pdf",
-      "decisionSummary": "-",
-      "environmentalAssessment": "-",
-      "fonsi": "-",
-      "stn": "PM0008766.PD8",
-      "associatedMrtp": "",
-      "additionalInformation": "Director's Review",
-      "actionDateIso": "2026-08-19",
-      "id": "96f62f3c0619bc44"
-    }
-  ]
+  "newRecordCount": 0,
+  "newRecords": []
 }
