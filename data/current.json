@@ -2,8 +2,8 @@
   "source": "https://www.accessdata.fda.gov/scripts/searchtobacco/index.cfm?action=export.viewFile",
   "sourcePage": "https://www.accessdata.fda.gov/scripts/searchtobacco/",
   "asOf": "09/29/2026",
-  "generatedAt": "2026-10-07T17:51:02.951Z",
-  "totalRecords": 17838,
+  "generatedAt": "2026-10-08T17:54:15.466Z",
+  "totalRecords": 17837,
   "records": [
     {
       "company": "22nd Century Group Inc.",
@@ -40566,23 +40566,6 @@
       "additionalInformation": "",
       "actionDateIso": "2020-02-03",
       "id": "b2347c353360e00a"
-    },
-    {
-      "company": "BBK Tobacco & Foods LLP dba HBI International",
-      "productName": "Raw Tips Pre-Rolled",
-      "category": "Roll-Your-Own",
-      "subCategory": "Paper Tip",
-      "submissionType": "SE - Substantially Equivalent Order",
-      "actionDate": "09/30/2024",
-      "orderLetter": "-",
-      "decisionSummary": "-",
-      "environmentalAssessment": "-",
-      "fonsi": "-",
-      "stn": "SE0015436",
-      "associatedMrtp": "",
-      "additionalInformation": "",
-      "actionDateIso": "2024-09-30",
-      "id": "40154a7d9878a4d0"
     },
     {
       "company": "BBK Tobacco & Foods LLP dba HBI International",
