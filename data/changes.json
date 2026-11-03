@@ -1,8 +1,8 @@
 {
   "source": "https://www.accessdata.fda.gov/scripts/searchtobacco/index.cfm?action=export.viewFile",
   "sourcePage": "https://www.accessdata.fda.gov/scripts/searchtobacco/",
-  "asOf": "10/30/2026",
-  "generatedAt": "2026-11-02T20:48:47.196Z",
+  "asOf": "11/02/2026",
+  "generatedAt": "2026-11-03T18:28:54.151Z",
   "firstRun": false,
   "previousAsOf": "10/30/2026",
   "previousTotalRecords": 17975,
